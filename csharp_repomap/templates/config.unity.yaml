@@ -1,0 +1,132 @@
+# csharp-repomap configuration for Unity projects
+# Edit this file to customize the repo map generation
+
+project_name: "Unity Project"
+
+source:
+  # Path to C# source code (relative to project root)
+  root_path: "Assets/Scripts"
+
+  # File extensions to include
+  file_extensions:
+    - ".cs"
+
+  # Patterns to exclude (glob syntax)
+  exclude_patterns:
+    - "**/Editor/**"
+    - "**/Tests/**"
+    - "**/Test/**"
+    - "**/*.Tests.cs"
+    - "**/*.Test.cs"
+    - "**/Generated/**"
+    - "**/Plugins/**"
+
+# Token limits for each output level
+tokens:
+  l1_skeleton: 1000    # Module overview
+  l2_signatures: 2000  # Class signatures
+  l3_relations: 3000   # Reference graph
+  encoding: "cl100k_base"  # tiktoken encoding
+
+# PageRank algorithm settings
+pagerank:
+  alpha: 0.85
+  max_iter: 100
+
+# Output settings
+output:
+  directory: ".repomap/output"
+  files:
+    skeleton: "repomap-L1-skeleton.md"
+    signatures: "repomap-L2-signatures.md"
+    relations: "repomap-L3-relations.md"
+    meta: "repomap-meta.json"
+
+# Importance boost patterns
+importance_boost:
+  patterns:
+    # Service classes (Unity pattern: SXxx)
+    - prefix: "S"
+      boost: 2.0
+      description: "Service layer classes"
+
+    # Manager classes
+    - suffix: "Manager"
+      boost: 1.5
+      description: "Manager classes"
+
+    - suffix: "Mgr"
+      boost: 1.5
+      description: "Manager classes (short form)"
+
+    # Controller classes
+    - suffix: "Controller"
+      boost: 1.5
+      description: "Controller classes"
+
+    # MonoBehaviour entry points
+    - suffix: "Behaviour"
+      boost: 1.2
+      description: "Unity MonoBehaviour classes"
+
+    - suffix: "System"
+      boost: 1.3
+      description: "System classes"
+
+  # Priority modules (always marked as [Active])
+  priority_modules: []
+
+# Module categories for L1 grouping
+categories:
+  Core:
+    patterns:
+      - "Core"
+      - "Common"
+      - "Utility"
+      - "Utils"
+      - "Base"
+      - "Framework"
+
+  Game:
+    patterns:
+      - "Game"
+      - "Gameplay"
+      - "Player"
+      - "Level"
+      - "Scene"
+      - "World"
+      - "Battle"
+
+  UI:
+    patterns:
+      - "UI"
+      - "View"
+      - "Panel"
+      - "Window"
+      - "Dialog"
+      - "HUD"
+
+  Data:
+    patterns:
+      - "Data"
+      - "Model"
+      - "Entity"
+      - "Config"
+      - "Save"
+
+  Network:
+    patterns:
+      - "Network"
+      - "Net"
+      - "Server"
+      - "Client"
+      - "Protocol"
+
+  Audio:
+    patterns:
+      - "Audio"
+      - "Sound"
+      - "Music"
+
+  Other:
+    patterns: []
